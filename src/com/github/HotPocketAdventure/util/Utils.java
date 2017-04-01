@@ -1,11 +1,20 @@
 package com.github.HotPocketAdventure.util;
 
 
+/**
+ * A miscellaneous utilities class. 
+ * <br>It includes methods to get various random values, String utilities, etc.
+ * 
+ * @version 1-2
+ * @author Michael Bradley
+ */
 public class Utils {
 
+	public static final char[] vowels = {'a', 'e', 'i', 'o', 'u'};
+	
 	/**
 	 * Ends the program with a specified error message.
-	 * @param msg
+	 * @param msg A {@link String} to be appended to "Error: "
 	 */
 	public static void die(String msg) {
 		System.err.println("Error: " + msg);
@@ -13,27 +22,70 @@ public class Utils {
 	}
 
 	/**
-	 * @param low
-	 * @param high
-	 * @return [low, high]
+	 * @param low Inclusive
+	 * @param high Inclusive
+	 * @return A randomly generated {@code int} in the range [low, high]
 	 */
 	public static int randomInt(int low, int high) {
 		if (low < 0) { low--; }
 		if (high < 0) { high--; }
 		return (int)((high - low + 1) * Math.random() + low);
 	}
+	
+	/**
+	 * @param min The minimum index. Inclusive
+	 * @param length The length of an array. Exclusive
+	 * @return A randomly generated {@code int} in the range [min, length) 
+	 */
+	public static int randomIndex(int min, int length) {
+		return randomInt(min, length - 1);
+	}
+	
+	/**
+	 * @param length The length of an array. Exclusive
+	 * @return A randomly generated {@code int} in the range [0, length) 
+	 */
+	public static int randomIndex(int length) {
+		return randomIndex(0, length);
+	}
 
 	/**
-	 * @param low
-	 * @param high
-	 * @return [low, high]
+	 * @param low Inclusive
+	 * @param high Inclusive
+	 * @return A randomly generated {@code long} in the range [low, high]
 	 */
 	public static long randomLong(long low, long high) {
 		return (long)((high - low + 1) * Math.random() + low);
 	}
+
+	/**
+	 * 
+	 * @param low Inclusive
+	 * @param high Inclusive
+	 * @param sigfig The number of decimal places the returned value will be randomized to
+	 * @return A randomly generated {@code double} in the range [low, high]
+	 */
+	public static double randomDub(double low, double high, int sigfig) {
+		double mult = Math.pow(10, sigfig);
+		double nLow = low * mult;
+		double nHigh = high * mult;
+		double ret = randomInt((int)nLow, (int)nHigh);
+
+		return ret / mult;
+	}
 	
 	/**
-	 * @return Either true or false
+	 * @param low Inclusive
+	 * @param high Inclusive
+	 * @param sigfig The number of decimal places the returned value will be randomized to
+	 * @return A randomly generated {@code float} in the range [low, high]
+	 */
+	public static float randomFloat(float low, float high, int sigfig) {
+		return (float)randomDub(low, high, sigfig);
+	}
+	
+	/**
+	 * @return A random {@code boolean} value.
 	 */
 	public static boolean randomBool() {
 		if (randomInt(0, 1) == 1) {
@@ -43,7 +95,7 @@ public class Utils {
 	}
 
 	/**
-	 * @return [A, Z]
+	 * @return A random {@code char} in the range of [A, Z].
 	 */
 	public static char randomUpperLetter() {
 		int low = 'A';
@@ -53,8 +105,7 @@ public class Utils {
 	}
 
 	/**
-	 * 
-	 * @return [a, z]
+	 * @return A random {@code char} in the range of [a, z].
 	 */
 	public static char randomLowerLetter() {
 		int low = 'a';
@@ -64,8 +115,7 @@ public class Utils {
 	}
 
 	/**
-	 * [A, Z] or [a, z]
-	 * @return
+	 * @return A random {@code char} in the range of [A, Z] or [a, z].
 	 */
 	public static char randomLetter() {
 		if (randomBool()) {
@@ -76,20 +126,14 @@ public class Utils {
 	}
 	
 	/**
-	 * 
-	 * @return a lower case vowel
+	 * @return A random lower case vowel.
 	 */
 	public static char randomVowel() {
-		char vows[] = {'a', 'e', 'i', 'o', 'u'};
-		int high = 4;
-		int low = 0;
-		
-		return vows[randomInt(low, high)];
+		return vowels[randomInt(0, vowels.length - 1)];
 	}
 	
 	/**
-	 * 
-	 * @return a lower case consonant
+	 * @return A random lower case consonant.
 	 */
 	public static char randomConsonant() {
 		char ret;
@@ -103,35 +147,7 @@ public class Utils {
 	}
 
 	/**
-	 * 
-	 * @param low
-	 * @param high
-	 * @param sigfig
-	 * @return [low, high] to sigfig number of decimal points
-	 */
-	public static double randomDub(double low, double high, int sigfig) {
-		double mult = Math.pow(10, sigfig);
-		double nLow = low * mult;
-		double nHigh = high * mult;
-		double ret = randomInt((int)nLow, (int)nHigh);
-
-		return ret / mult;
-	}
-	
-	/**
-	 * 
-	 * @param low
-	 * @param high
-	 * @param sigfig
-	 * @return [low, high] to sigfig number of decimal points
-	 */
-	public static float randomFloat(float low, float high, int sigfig) {
-		return (float)randomDub(low, high, sigfig);
-	}
-
-	/**
-	 * 
-	 * @return A name generated randomly piece by piece that is at least two characters long.
+	 * @return A pronounceable name generated randomly piece by piece that is at least two characters long.
 	 */
 	public static String randomName() {
 		int i = 0;
@@ -226,48 +242,33 @@ public class Utils {
 	}
 
 	/**
-	 * Case insensitive
-	 * @param c
-	 * @return True if c is a vowel, false otherwise
+	 * Case insensitive.
+	 * @param c The character to test
+	 * @return {@code true} if c is a vowel, {@code false} otherwise
 	 */
 	public static boolean isVowel(char c) {
-		switch (c) {
-		case 'a':
-		case 'A':
-		case 'e':
-		case 'E':
-		case 'i':
-		case 'I':
-		case 'o':
-		case 'O':
-		case 'u':
-		case 'U':
-			return true;
+		for (char ch : vowels) {
+			if (c == ch || c == Character.toUpperCase(ch)) {
+				return true;
+			}
 		}
 
 		return false;
 	}
 	
 	/**
-	 * 
-	 * @param times
-	 * @param c
-	 * @return a string with times number of c
+	 * @param times Number of times to repeat
+	 * @param c The character to repeat
+	 * @return A {@link String} of repeated characters.
 	 */
 	public static String repeatCharacter(int times, char c) {
-		String ret = new String();
-		for (int i = 0; i < times; i++) {
-			ret += c;
-		}
-		
-		return ret;
+		return new String(new char[times]).replace('\0', c);
 	}
 	
 	/**
-	 * Yields a random set of size numbers totaling max
-	 * @param size
-	 * @param max
-	 * @return
+	 * @param size The length of the returned array
+	 * @param max The value all elements should add up to
+	 * @return A random array of {@code int}s totaling max.
 	 */
 	public static int[] randomValues(int size, int max) {
 		int index;
@@ -284,8 +285,8 @@ public class Utils {
 	
 	
 	/**
-	 * @param values
-	 * @return Index of the array that was chosen
+	 * @param values An {@code int} array of weights
+	 * @return The index of the element that was chosen.
 	 */
 	public static int weightedRandom(int[] values) {
 		int i = 0;
@@ -300,9 +301,8 @@ public class Utils {
 	}
 	
 	/**
-	 * Returns the sum of all integers in the array
-	 * @param arr
-	 * @return
+	 * @param arr An array of {@code int}s
+	 * @return The sum of all integers in the array.
 	 */
 	public static int total(int[] arr) {
 		int ret = 0;
@@ -311,5 +311,14 @@ public class Utils {
 		}
 		
 		return ret;
+	}
+	
+	/**
+	 * Converts a {@code boolean} value to a more user friendly String.
+	 * @param value The value to be converted
+	 * @return "Yes" or "No" depending on value.
+	 */
+	public static String readableBool(boolean value) {
+		return value ? "Yes" : "No";
 	}
 }

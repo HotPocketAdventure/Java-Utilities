@@ -1,0 +1,14 @@
+ver. 1-2
+	- Optimized repeatCharacter(int, char)
+	- Added readableBool(bool)
+	- Edited documentation comments to be more readable
+	- Added static constant array of vowels.
+	- Cleaned up randomVowel()
+	- Cleaned up isVowel()
+	- Added randomIndex(int, int) and (int)
+
+ver. 1-1
+	- Added randomFloat(float, float, int)	
+
+ver. 1-0
+	- First Build	
