@@ -1,6 +1,13 @@
+ver. 1-3
+	- Clarified the range of the returned index in documentation of weightedRandom(int[])
+	- Added appendTo(String[], char)
+	- Added appendTo(String[], String)
+	- Added appendTo(String[], String[])
+	- Edited comment in randomConsonant() to contain no profanity
+
 ver. 1-2
 	- Optimized repeatCharacter(int, char)
-	- Added readableBool(bool)
+	- Added readableBool(boolean)
 	- Edited documentation comments to be more readable
 	- Added static constant array of vowels.
 	- Cleaned up randomVowel()

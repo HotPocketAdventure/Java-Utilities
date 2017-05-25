@@ -138,7 +138,7 @@ public class Utils {
 	public static char randomConsonant() {
 		char ret;
 		
-		//such shitty code
+		//WARNING: Unoptimized code ahead.
 		do {
 			ret = randomLowerLetter();
 		} while (isVowel(ret));
@@ -286,7 +286,7 @@ public class Utils {
 	
 	/**
 	 * @param values An {@code int} array of weights
-	 * @return The index of the element that was chosen.
+	 * @return The index of the element that was chosen within the range [0, {@code values.length})
 	 */
 	public static int weightedRandom(int[] values) {
 		int i = 0;
@@ -315,10 +315,59 @@ public class Utils {
 	
 	/**
 	 * Converts a {@code boolean} value to a more user friendly String.
-	 * @param value The value to be converted
+	 * @param value The {@code boolean} value to be converted
 	 * @return "Yes" or "No" depending on value.
 	 */
 	public static String readableBool(boolean value) {
 		return value ? "Yes" : "No";
+	}
+	
+	/**
+	 * Convenience method.
+	 * <br>See: {@link #appendTo(String[], String)
+	 * @param strs The {@link String} array to be appended 
+	 * @param toApp The {@code char} that will be appended to each element
+	 * @return The appended String array.
+	 */
+	public static String[] appendTo(String[] strs, char toApp) {
+		return appendTo(strs, String.valueOf(toApp));
+	}
+	
+	/**
+	 * Appends specified string to each element of an array.
+	 * @param strs The {@link String} array to be appended 
+	 * @param toApp The String that will be appended to each element
+	 * @return The appended String array.
+	 */
+	public static String[] appendTo(String[] strs, String toApp) {
+		String[] ret = new String[strs.length];
+		
+		for (int i = 0; i < ret.length; i++) {
+			ret[i] = strs[i] + toApp;
+		}
+		
+		return ret;
+	}
+	
+	/**
+	 * Appends each element of the toApp array to the strs array respectively.
+	 * @param strs The {@link String} array to be appended 
+	 * @param toApp A parallel array of Strings that will be appended
+	 * @return The appended String array.
+	 * @throws IllegalArgumentException If the lengths of strs and toApp are not equal.
+	 */
+	public static String[] appendTo(String[] strs, String[] toApp) throws IllegalArgumentException {
+		if (strs.length != toApp.length){
+			throw new IllegalArgumentException("The length of strs (" + strs.length + ") is not equal to the length"
+					+ " of toApp (" + toApp.length + ").");
+		}
+		
+		String[] ret = new String[strs.length];
+		
+		for (int i = 0; i < ret.length; i++) {
+			ret[i] = strs[i] + toApp[i];
+		}
+		
+		return ret;
 	}
 }
